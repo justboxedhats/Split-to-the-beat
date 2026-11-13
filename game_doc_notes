@@ -18,19 +18,78 @@ game eliments:
 - buttons 
 - pannels 
 
+#visual eliments 
+
+- player circle
+- menus
+- shaders
+- particles
+
 #inputs : 
 - arrow keys 
 - wasd keys 
 - space 
 - clicks 
 
+
 # note timing:
-- 
+
+-  speed multiplyer 
+- levels of timing 
+- scoring 
+- health 
 
 # sound :
 
+- music 
+- sound effects 
 
 
+Coding Structure (the real meat and potatos) :
 
-Coding Structure :
+# mannaing beats 
+My best idea is yo make a large dictionary where the keys are the time stamps after the 
+song starts where the beats apear at the side of the screen and the items of the dictionary are
+ the types of beats 
+  the game makes a list of times to expect a input 
 
+
+# ui system 
+A collection of functions that use python fuctions that generates rects
+
+
+uses a fuction that just renders the outline of rects 
+then Uses another fuction in order to fill and render all the surfaces
+ 
+should includes the particle system: 
+
+- gets location, surfance, amount and behavior 
+- takes input to determen the type of behavior the particles will use 
+- generates particles randomly around given point 
+- burst: generates all the parcibles at one point and gives them random volosity 
+    types of behavior:
+- burst 
+- rising particles
+- falling particles
+
+
+#inputs (I gave up, a file just to mannage pygame input system)?
+
+- uses the pygame functions
+-
+
+
+#beats 
+I think that the Structure for beats will be based off of
+a file that mannaes the time that the program uses 
+
+# particles(maybe)
+
+- held in the visuals file, I would think
+
+# visual shaders(maybe)(somthing I have not tried before)
+
+- held in the visuals file, I would think
+- takes a string to determen the type of visual modifation 
+    Shaders:
+    -
