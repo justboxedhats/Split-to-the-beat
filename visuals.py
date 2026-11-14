@@ -1,6 +1,7 @@
 import pygame 
 import random 
 import time
+screen.pygame.
 
 class circles ():
     def __init__(pos):
@@ -31,11 +32,19 @@ class pannel_press (pannel):
         else:
             return False
 
+    def outline_render(self): #this may have some problems because pygame does not have a direct function 
+        pygame.draw.rect(screen, self)
+
+    def render (self):
+        pygame
+
+
+
 
 
 
 class text ():
-    def __init__ (x,y,text, color, font, size=="arial"):
+    def __init__ (x,y,text, color, font="arial",size=20):
         self.x=x
         self.y=y
         self.text=text
@@ -44,10 +53,14 @@ class text ():
         self.size=size 
 
     def render (self):
+        if self.font == "df":
+            font="arial"
+        else: 
+            font=self.font        
         # calls pygame function to render 
 
 
-class parrticles ():
+class particles ():
     def __init__ (x,y,pos ):
         self.x=x
         self.y=y
@@ -71,4 +84,6 @@ class parrticles ():
             else: 
                 print(f"error  { self.behavior} not reconized")
 
-
+class menus():
+    def __init__():
+        self.

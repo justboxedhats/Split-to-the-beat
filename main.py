@@ -36,8 +36,34 @@ def load_level ():
     del imported_level["song_bpm"]
     level_beats=imported_level
     
+def check_acreacy (beat):
+
+        if  abs(beat-time.current)<0.15: # perfect 
+            print("perfect")
+            score+=100
+            del level_beats["w"][beat]
+            # delets teh beat from other menus 
+            # renders particles and circle 
+        elif abs(beat-time.current)>0.15 and abs(beat-time.current)<0.35:# great 
+            print("great")
+        elif abs(beat-time.current)>0.35 and abs(beat-time.current)<0.65:# good 
+            print("good")
+        elif abs(beat-time.current)>0.65 and abs(beat-time.current)<0.9:# ok
+            print("ok")
+        elif abs(beat-time.current)<0.9 and abs(beat-time.current)> 1.1 :
+            # miss sound 
+            print("input miss")
+            health-=1
     
-    
+        elif beat-time.current < -1.5:#miss :(
+            print("automatic miss")
+            health-=1 
+
+
+        # loads sounds
+        # it determens the  acreacy of the input and ranks it(miss,good, great, perrfcet)
+        # changes varables (points, health, beats list )    
+
 
 while runnning :
 
@@ -85,8 +111,35 @@ while runnning :
         else:
             input_list.pop("down")
 
+    if level="home":
+        screen.fill(bg_color)
+        # buttons
+            # play
+            # quit  
+        play_button=visuals.pannel_press(per2pix(35), per2pix(25,"s_h"),per2pix(30),per2pix(10,"s_h"),(100,200,100) )
+        play_button.render()
+        play_text=visuals.text(per2pix(35),per2pix(25,"s_h"),"Play!",(100,200,100))
+        play_text.render()
 
-    if level == "tutorial":
+        quit_button=visuals.pannel_press(per2pix(40),per2pix(35,"s_h"),per2pix(20),per2pix(10,"s_h"),(100,200,100))
+        quit_button.render()
+        quit_text=visuals.text(per2pix(40),per2pix(35,"s_h"),"QUIT",(100,200,100))
+        quit_text.render()
+        
+        # check buttons
+        if play_button.check_click():
+            start_level(0)
+
+        if quit_button.check_click():
+            running=False 
+        
+
+        #images 
+            # title
+        title_text=visuals.text(per2pix(45),per2pix(10,"s_h"),(200,200,250))
+
+    elif level == "tutorial":
+        screen.fill(bg_color)
         if "pause" in flags :
             if "start" in flags:
                 # loads acutal pause menu 
@@ -104,36 +157,18 @@ while runnning :
             
 
             # checks user imputs 
-            if "w" in input_list and "up" in input_list :
+            if "w" in input_list or "up" in input_list :
                 for beat in  level_beats["w"].keys():
-
-                    if  abs(beat-time.current)<0.15: # perfect 
-                        print("perfect")
-                        score+=100
-                        del level_beats["w"][beat]
-                        # delets teh beat from other menus 
-                        # renders particles and circle 
-                    elif abs(beat-time.current)>0.15 and abs(beat-time.current)<0.35:# great 
-                        print("great")
-                    elif abs(beat-time.current)>0.35 and abs(beat-time.current)<0.65:# good 
-                        print("good")
-                    elif abs(beat-time.current)>0.65 and abs(beat-time.current)<0.9:# ok
-                        print("ok")
-                    elif abs(beat-time.current)<0.9 and abs(beat-time.current)> 1.1 :
-                        # miss sound 
-                        print("input miss")
-                        health-=1
-                
-                    elif beat-time.current < -1.5:#miss :(
-                        print("automatic miss")
-                        health-=1
-
-                    
-
-
-                # loads sounds
-                # it determens the  acreacy of the input and ranks it(miss,good, great, perrfcet)
-                # changes varables (points, health, beats list )
+                    check_acreacy(beat)                    
+            if "s" in input_list or "down" in input_list :
+                for beat in  level_beats["down"].keys():
+                    check_acreacy(beat)              
+            if "d" in input_list or "left" in input_list :
+                for beat in  level_beats["left"].keys():
+                    check_acreacy(beat)              
+            if "a" in input_list or "right" in input_list :
+                for beat in  level_beats["right"].keys():
+                    check_acreacy(beat)              
 
             # makes a list of beats to render based on the time
             # countculates the position of the notes based off age and speed of song

@@ -10,3 +10,5 @@ class time ():
 
     def start_timer ():
 
+    def current_time ():
+        return pygame.time.get_frames()
