@@ -10,6 +10,7 @@ Brain storming
 - whole yellow notes:
 - half yellow notes: 
 - whole green notes:
+-pausing (maybe)
 - diagonal notes (maybe...): 
 
 game eliments: 
@@ -81,7 +82,26 @@ should includes the particle system:
 
 #beats 
 I think that the Structure for beats will be based off of
-a file that mannaes the time that the program uses 
+a file that mannaes the time that the program uses
+    attempt to impliment:
+     the main file looks into the level file 
+     then calls select functions to find vaules such as bpm, song file path, 
+            The functions:
+            - look at the first 2 vaules of a dictionary and retrives the level song and speed,
+              then returns a lost of just beat time stamps
+     and the beats for the inputs 
+     Then it looks at the flags dictionary to check if the game is paused,
+     the player can make inputs, the amount of health the player has, ect. 
+     The main file then calls visual file to render the circles 
+     and other ui, such as textm health, and so on 
+     while the main file checks if the player inputed any corect or wrong inputs 
+     (it refences a list that was made earlyer)
+     based on the player input it will increase score and other varables
+
+     
+
+
+
 
 # particles(maybe)
 

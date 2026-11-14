@@ -1,5 +1,6 @@
 import pygame 
 import random 
+import time
 
 class circles ():
     def __init__(pos):
@@ -20,6 +21,30 @@ class pannel ():
     def render (self):
         self.rect=pygame.rect.Rect()
 
+class pannel_press (pannel):
+    def __init__ (self):
+        super().__init__()
+        
+    def check_click (self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_just_pressed()[0] :
+            return True
+        else:
+            return False
+
+
+
+
+class text ():
+    def __init__ (x,y,text, color, font, size=="arial"):
+        self.x=x
+        self.y=y
+        self.text=text
+        self.color=color
+        self.font=font 
+        self.size=size 
+
+    def render (self):
+        # calls pygame function to render 
 
 
 class parrticles ():
