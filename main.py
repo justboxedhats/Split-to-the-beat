@@ -2,27 +2,30 @@ import pygame
 import visuals 
 import sound 
 import time 
-import tutorial from levels 
+from levels import tutorial  
 pygame.init()
-screen=pygame.#screen
+screen=pygame.display.set_mode((500,200))
 # settinsg varables 
 flags=[]
 runnning=True
 pause=False
 input_list=[]
-level="tutorial"
+level="home"
 level_beats={}
 level_song=None
 level_bpm=None
 health=None
+bg_color=(200,200,200)
 
 
-def per2pix (part,whole) :
+def per2pix (part,whole="s_w") :
+    m_whole=whole
     if whole == "s_h":
-        part= screen.height()
+        m_whole= screen.get_height()
     elif whole == "s_w":
-        part= screen.width()
-    return int(whole/part)
+        m_whole= screen.get_width()
+    print(m_whole/part)
+    return int(m_whole/part)
 
 def load_level ():
     # the conditions may problamatic 
@@ -35,6 +38,13 @@ def load_level ():
     level_bpm=imported_level["song_bpm"]
     del imported_level["song_bpm"]
     level_beats=imported_level
+
+def start_level(level_num):
+    bg_color=(20,20,20)
+    level=str(level_num)
+    pause=True
+
+
     
 def check_acreacy (beat):
 
@@ -50,7 +60,7 @@ def check_acreacy (beat):
             print("good")
         elif abs(beat-time.current)>0.65 and abs(beat-time.current)<0.9:# ok
             print("ok")
-        elif abs(beat-time.current)<0.9 and abs(beat-time.current)> 1.1 :
+        elif abs(beat-time.current)<0.9 and abs(beat-time.current)> 1.1 :# miss
             # miss sound 
             print("input miss")
             health-=1
@@ -71,47 +81,56 @@ while runnning :
     for event in events:
         if event == pygame.QUIT:
             running=False 
-        if event = pygame.K_ESCAPE:
+        if event == pygame.K_ESCAPE:
             # I'm not sure if a list of inputs would be best :( \
             # but it will have to due for now  
             #add to input 
             input_list.append("escape")
-        else: 
-            input_list.pop("escape")
-        if event == pygame.K_A:
-            input_list.append("A")
         else:
-            input_list.pop("A")
+            if "escape" in input_list:
+                input_list.remove("escape")
+        if event == pygame.K_a: 
+            input_list.append("a")
+        else:
+            if "a" in input_list:
+                input_list.remove("a")
         if event == pygame.K_LEFT:
             input_list.append("left")
         else:
-            input_list.pop("left")
-        if event == pygame.K_D:
-            input_list.append("D")
+            if "left" in input_list:
+                input_list.remove("left")
+        if event == pygame.K_d:
+                input_list.append("d")
         else:
-            input_list.pop("D")
+            if "d" in input_list:
+                input_list.remove("d")
         if event == pygame.K_RIGHT:
             input_list.append("right")
         else:
-            input_list.pop("right")
-        if event == pygame.K_W:
-            input_list.append("W")
+            if "right" in input_list:
+                input_list.remove("right")
+        if event == pygame.K_w:
+            input_list.append("w")
         else:
-            input_list.pop("W")
+            if "w" in input_list:
+                input_list.remove("w")
         if event == pygame.K_UP:
             input_list.append("up")
         else:
-            input_list.pop("up")
-        if event == pygame.K_S:
-            input_list.append("S")
+            if "up" in input_list:
+                input_list.remove("up")
+        if event == pygame.K_s:
+            input_list.append("s")
         else:
-            input_list.pop("S")
+            if "s" in input_list:
+                input_list.remove("s")
         if event == pygame.K_DOWN:
             input_list.append("down")
         else:
-            input_list.pop("down")
+            if "down" in input_list:
+                input_list.remove("down")
 
-    if level="home":
+    if level=="home":
         screen.fill(bg_color)
         # buttons
             # play
@@ -142,10 +161,12 @@ while runnning :
         screen.fill(bg_color)
         if "pause" in flags :
             if "start" in flags:
+                pass
                 # loads acutal pause menu 
                 # checks contions to turn off pause 
 
             else:
+                pass
                 # loads start menu 
                 # button to add pause into flags 
                 # then turn off pause 
@@ -178,16 +199,20 @@ while runnning :
 
             if "debug" in flags :
                 # load visuals outlines 
+                pass
 
             else:
                 #renders everything 
+                pass
 
-    elif level == "level1"
+    elif level == "level1":
+        pass
     
     elif level == "None": # level_outline
         # the basic eliments to call a level 
+        pass
     else :
-    print(f" {level}  was not idenifyed as a ")
+        print(f" {level}  was not idenifyed as a ")
 
 
 
