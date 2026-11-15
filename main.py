@@ -4,10 +4,10 @@ import sound
 import time 
 from levels import tutorial  
 pygame.init()
-screen=pygame.display.set_mode((500,200))
+screen=pygame.display.set_mode((500,350))
 # settinsg varables 
 flags=[]
-runnning=True
+running=True
 pause=False
 input_list=[]
 level="home"
@@ -24,8 +24,8 @@ def per2pix (part,whole="s_w") :
         m_whole= screen.get_height()
     elif whole == "s_w":
         m_whole= screen.get_width()
-    print(m_whole/part)
-    return int(m_whole/part)
+    #print(f"perpix  {m_whole/part}")
+    return int((part/100)*m_whole)
 
 def load_level ():
     # the conditions may problamatic 
@@ -75,14 +75,14 @@ def check_acreacy (beat):
         # changes varables (points, health, beats list )    
 
 
-while runnning :
+while running :
 
-    events=pygame.event.get()
-    for event in events:
-        if event == pygame.QUIT:
-            running=False 
-        if event == pygame.K_ESCAPE:
-            # I'm not sure if a list of inputs would be best :( \
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running=False
+            print("attempted to quit") 
+        if event.type == pygame.K_ESCAPE:
+            # I'm not sure if a list of inputs would be best :( 
             # but it will have to due for now  
             #add to input 
             input_list.append("escape")
@@ -132,17 +132,19 @@ while runnning :
 
     if level=="home":
         screen.fill(bg_color)
+        print(f"sc_w {screen.get_width()} ,  sc_h {screen.get_height()}")
         # buttons
-            # play
-            # quit  
+              
+        # play
         play_button=visuals.pannel_press(per2pix(35), per2pix(25,"s_h"),per2pix(30),per2pix(10,"s_h"),(100,200,100) )
         play_button.render()
-        play_text=visuals.text(per2pix(35),per2pix(25,"s_h"),"Play!",(100,200,100))
+        play_text=visuals.text(per2pix(35),per2pix(25,"s_h"),"Play!",(0,0,0))
         play_text.render()
 
-        quit_button=visuals.pannel_press(per2pix(40),per2pix(35,"s_h"),per2pix(20),per2pix(10,"s_h"),(100,200,100))
+        # quit
+        quit_button=visuals.pannel_press(per2pix(40),per2pix(40,"s_h"),per2pix(20),per2pix(10,"s_h"),(100,200,100))
         quit_button.render()
-        quit_text=visuals.text(per2pix(40),per2pix(35,"s_h"),"QUIT",(100,200,100))
+        quit_text=visuals.text(per2pix(40),per2pix(35,"s_h"),"QUIT",(0,0,0))
         quit_text.render()
         
         # check buttons
@@ -155,7 +157,8 @@ while runnning :
 
         #images 
             # title
-        title_text=visuals.text(per2pix(45),per2pix(10,"s_h"),(200,200,250))
+        title_text=visuals.text(per2pix(35),per2pix(10,"s_h"),"Split The Beat!",(100,100,250),None, 30)
+        title_text.render()
 
     elif level == "tutorial":
         screen.fill(bg_color)
@@ -217,5 +220,4 @@ while runnning :
 
 
 
-
-pygame.QUIT()
+    pygame.display.flip()

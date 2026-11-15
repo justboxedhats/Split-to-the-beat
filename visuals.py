@@ -1,7 +1,7 @@
 import pygame 
 import random 
 import time
-screen=pygame.display.set_mode((1,1))
+screen=pygame.display.set_mode((500,500))
 
 class circles :
     def __init__(self,x,y,size,color):
@@ -41,7 +41,7 @@ class pannel_press (pannel):
         pygame.draw.rect(screen, self)
 
     def render (self):
-        pygame
+        pygame.draw.rect(screen,self.color,self.rect)
 
 
 class text ():
@@ -59,9 +59,9 @@ class text ():
             font="arial"
         else: 
             font=self.font      
-        _font=pygame.font.SysFont(font,self.size,True,False)
-        text_surf=_font.render(self.text,True,self.color)
-        screen.blit(text_surf,self.pos)
+        text=pygame.font.SysFont(font,self.size,True,False)
+        text_surf=text.render(self.text,True,self.color)
+        screen.blit(text_surf,(self.x,self.y))
         
 
 
