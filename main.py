@@ -2,9 +2,9 @@ import pygame
 import visuals 
 import sound 
 import time 
-from levels import tutorial  
+from levels import tutorial_lev 
 pygame.init()
-screen=pygame.display.set_mode((500,350))
+screen=pygame.display.set_mode((500,500),pygame.RESIZABLE)
 # settinsg varables 
 flags=[]
 running=True
@@ -28,21 +28,63 @@ def per2pix (part,whole="s_w") :
     return int((part/100)*m_whole)
 
 def load_level ():
-    # the conditions may problamatic 
+    # the conditions may problamatic (the giant if chains)
     # so I might work on it later :(
     # so I can get a prototype as soon as 
     # possable 
-    imported_level=tutorial
-    level_song=imported_level["song_filepath"]
-    del imported_level["song_filepath"]
-    level_bpm=imported_level["song_bpm"]
-    del imported_level["song_bpm"]
+    imported_level=tutorial_lev
+    level_song=imported_level["song"]
+    del imported_level["song"]
+    level_bpm=imported_level["bpm"]
+    del imported_level["bpm"]
     level_beats=imported_level
 
 def start_level(level_num):
+    global bg_color,level,pause
     bg_color=(20,20,20)
     level=str(level_num)
     pause=True
+
+def player_circle():
+
+    # renders guide
+
+    top_guide_circle=visuals.circles(per2pix(50),per2pix(20),per2pix(3),(100,100,100))
+    bottom_guide_circle=visuals.circles(per2pix(50),per2pix(80),per2pix(3),(100,100,100))
+    right_guide_circle=visuals.circles(per2pix(20),per2pix(50),per2pix(3),(100,100,100))
+    left_guide_circle=visuals.circles(per2pix(80),per2pix(50),per2pix(3),(100,100,100))
+
+        #renders guides
+
+    top_guide_circle.draw_base()
+    bottom_guide_circle.draw_base()
+    right_guide_circle.draw_base()
+    left_guide_circle.draw_base()
+
+
+    # checks user imputs 
+    print(input_list)
+    if "w" in input_list or "up" in input_list :
+        pass
+        # right up
+    if "s" in input_list or "down" in input_list :
+        pass
+        #right down        
+    if "d" in input_list or "left" in input_list:
+        pass
+        # up left            
+    if "a" in input_list or "right" in input_list :
+        pass
+        # up right
+
+    else:
+        main_circle=visuals.circles(per2pix(50),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        main_circle.draw_base()
+
+        #load regular cirlcle at the center of the screen
+
+
+
 
 
     
@@ -81,56 +123,62 @@ while running :
         if event.type == pygame.QUIT:
             running=False
             print("attempted to quit") 
-        if event.type == pygame.K_ESCAPE:
-            # I'm not sure if a list of inputs would be best :( 
-            # but it will have to due for now  
-            #add to input 
-            input_list.append("escape")
-        else:
-            if "escape" in input_list:
-                input_list.remove("escape")
-        if event == pygame.K_a: 
-            input_list.append("a")
-        else:
-            if "a" in input_list:
-                input_list.remove("a")
-        if event == pygame.K_LEFT:
-            input_list.append("left")
-        else:
-            if "left" in input_list:
-                input_list.remove("left")
-        if event == pygame.K_d:
-                input_list.append("d")
-        else:
-            if "d" in input_list:
-                input_list.remove("d")
-        if event == pygame.K_RIGHT:
-            input_list.append("right")
-        else:
-            if "right" in input_list:
-                input_list.remove("right")
-        if event == pygame.K_w:
-            input_list.append("w")
-        else:
-            if "w" in input_list:
-                input_list.remove("w")
-        if event == pygame.K_UP:
-            input_list.append("up")
-        else:
-            if "up" in input_list:
-                input_list.remove("up")
-        if event == pygame.K_s:
-            input_list.append("s")
-        else:
-            if "s" in input_list:
-                input_list.remove("s")
-        if event == pygame.K_DOWN:
-            input_list.append("down")
-        else:
-            if "down" in input_list:
-                input_list.remove("down")
+        if event.type == pygame.KEYDOWN:
+            if event.type == pygame.K_ESCAPE:
+                # I'm not sure if a list of inputs would be best :( 
+                # but it will have to due for now  
+                #add to input 
+                input_list.append("escape")
+            else:
+                if "escape" in input_list:
+                    input_list.remove("escape")
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:  
+                input_list.append("a")
+            else:
+                if "a" in input_list:
+                    input_list.remove("a")
+            if event == pygame.K_LEFT:
+                input_list.append("left")
+                print("left")
+            else:
+                if "left" in input_list:
+                    input_list.remove("left")
+            if event == pygame.K_d:
+                    input_list.append("d")
+            else:
+                if "d" in input_list:
+                    input_list.remove("d")
+            if event == pygame.K_RIGHT:
+                input_list.append("right")
+                print("right")
+            else:
+                if "right" in input_list:
+                    input_list.remove("right")
+            if event == pygame.K_w:
+                input_list.append("w")
+            else:
+                if "w" in input_list:
+                    input_list.remove("w")
+            if event == pygame.K_UP:
+                input_list.append("up")
+                print("up")
+            else:
+                if "up" in input_list:
+                    input_list.remove("up")
+            if event == pygame.K_s:
+                input_list.append("s")
+            else:
+                if "s" in input_list:
+                    input_list.remove("s")
+            if event == pygame.K_DOWN:
+                input_list.append("down")
+                print("down")
+            else:
+                if "down" in input_list:
+                    input_list.remove("down")
 
-    if level=="home":
+    if level=="home": # --------- menu mannager 
         screen.fill(bg_color)
         print(f"sc_w {screen.get_width()} ,  sc_h {screen.get_height()}")
         # buttons
@@ -149,7 +197,8 @@ while running :
         
         # check buttons
         if play_button.check_click():
-            start_level(0)
+            start_level("tutorial")
+            load_level()
 
         if quit_button.check_click():
             running=False 
@@ -162,26 +211,37 @@ while running :
 
     elif level == "tutorial":
         screen.fill(bg_color)
-        if "pause" in flags :
+        if pause :
             if "start" in flags:
-                pass
+                pause_text=visuals.text(per2pix(45),per2pix(10,"s_h"),"paused",(250,250,200))
+                pause_text.render()
                 # loads acutal pause menu 
                 # checks contions to turn off pause 
-
             else:
-                pass
+                pause_text=visuals.text(per2pix(45),per2pix(5,"s_h"),"start",(200,12,120),None,40)
+                start_button=visuals.pannel_press(per2pix(45),per2pix(30,"s_h"),per2pix(30),per2pix(10,"s_h"),(200,200,250))
+                pause_button_text=visuals.text(per2pix(45),per2pix(30,"s_h"), "begin", (100,180,100))
+                start_button.render()
+                pause_button_text.render()
+                pause_text.render()
+
                 # loads start menu 
                 # button to add pause into flags 
+                if start_button.check_click():
+                    pause=False
+                    # sets other varables for the level
+                    # 
+                    flags.append("start")
                 # then turn off pause 
 
 
         else: # the game is running 
-            print("level") 
             # loads runs function 
-            
+            player_circle()
 
             # checks user imputs 
             if "w" in input_list or "up" in input_list :
+
                 for beat in  level_beats["w"].keys():
                     check_acreacy(beat)                    
             if "s" in input_list or "down" in input_list :

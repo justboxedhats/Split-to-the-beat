@@ -1,6 +1,7 @@
 import pygame 
 import random 
 import time
+import math
 screen=pygame.display.set_mode((500,500))
 
 class circles :
@@ -10,7 +11,15 @@ class circles :
         self.pos=(x,y)
         self.size=size
         self.color=color
+        self.radius= size/2
 
+    def draw_base (self):
+        global screen
+        pygame.draw.circle(screen,self.color,self.pos,self.radius)
+
+    def half_circle(self,st_angle=0.0,ed_angle=0.5):
+        global screen
+        pygame.draw.arc(screen,self.color,(self.x,self.y,self.size,self.size),st_angle,ed_angle)
 
 class pannel :
     def __init__ (self,x,y,width,height,color ):
