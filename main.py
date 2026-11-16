@@ -65,16 +65,28 @@ def player_circle():
     # checks user imputs 
     print(input_list)
     if "w" in input_list or "up" in input_list :
-        pass
+        r_half_cirle=visuals.circles(per2pix(50),per2pix(20,"s_h"),per2pix(7),(250,250,250))
+        r_half_cirle.half_circle(-1.5,1.5)
+        l_half_circle=visuals.circles(per2pix(50),per2pix(80,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle.half_circle(1.5,-1.5)
         # right up
-    if "s" in input_list or "down" in input_list :
-        pass
-        #right down        
-    if "d" in input_list or "left" in input_list:
-        pass
+    elif "s" in input_list or "down" in input_list :
+        r_half_cirle=visuals.circles(per2pix(50),per2pix(80,"s_h"),per2pix(7),(250,250,250))
+        r_half_cirle.half_circle(-1.5,1.5)
+        l_half_circle=visuals.circles(per2pix(50),per2pix(20,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle.half_circle(1.5,-1.5)
+        #right down      
+    elif "d" in input_list or "left" in input_list:
+        r_half_cirle=visuals.circles(per2pix(80),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        r_half_cirle.half_circle(3,0)
+        l_half_circle=visuals.circles(per2pix(20),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle.half_circle(0,3)
         # up left            
-    if "a" in input_list or "right" in input_list :
-        pass
+    elif "a" in input_list or "right" in input_list :
+        r_half_cirle=visuals.circles(per2pix(20),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        r_half_cirle.half_circle(3,0)
+        l_half_circle=visuals.circles(per2pix(80),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle.half_circle(0,3)
         # up right
 
     else:
@@ -138,40 +150,40 @@ while running :
             else:
                 if "a" in input_list:
                     input_list.remove("a")
-            if event == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT:
                 input_list.append("left")
                 print("left")
             else:
                 if "left" in input_list:
                     input_list.remove("left")
-            if event == pygame.K_d:
+            if event.key == pygame.K_d:
                     input_list.append("d")
             else:
                 if "d" in input_list:
                     input_list.remove("d")
-            if event == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT:
                 input_list.append("right")
                 print("right")
             else:
                 if "right" in input_list:
                     input_list.remove("right")
-            if event == pygame.K_w:
+            if event.key == pygame.K_w:
                 input_list.append("w")
             else:
                 if "w" in input_list:
                     input_list.remove("w")
-            if event == pygame.K_UP:
+            if event.key == pygame.K_UP:
                 input_list.append("up")
                 print("up")
             else:
                 if "up" in input_list:
                     input_list.remove("up")
-            if event == pygame.K_s:
+            if event.key == pygame.K_s:
                 input_list.append("s")
             else:
                 if "s" in input_list:
                     input_list.remove("s")
-            if event == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN:
                 input_list.append("down")
                 print("down")
             else:
@@ -240,6 +252,7 @@ while running :
             player_circle()
 
             # checks user imputs 
+            """
             if "w" in input_list or "up" in input_list :
 
                 for beat in  level_beats["w"].keys():
@@ -253,6 +266,7 @@ while running :
             if "a" in input_list or "right" in input_list :
                 for beat in  level_beats["right"].keys():
                     check_acreacy(beat)              
+"""
 
             # makes a list of beats to render based on the time
             # countculates the position of the notes based off age and speed of song
