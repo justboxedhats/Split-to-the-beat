@@ -13,6 +13,7 @@ level="home"
 level_song=None
 level_bpm=None
 health=None
+score=0
 bg_color=(200,200,200)
 beat_time_offset=2# time it takes of a beat reach the guide
 circle_display_distance=20# under to place the postion of the guide circles 
@@ -92,7 +93,7 @@ def load_level ():
         if "4" in level_beats[beat] and "g" in level_beats[beat]:
             input_beats["up"][beat]= "g"                    
 
-        print(f" input; {input_beats} render {render_beats}")
+        #print(f" input; {input_beats} render {render_beats}")
         # coutculates the amount it takes for a beat from the 
         # top or sides to reach the circle guides 
         # then generates the time for the player to make a input 
@@ -122,7 +123,7 @@ def player_circle():
 
 
     # checks user imputs 
-    print(input_beats)
+    #                    print(input_beats)
     if "w" in input_beats or "up" in input_beats :
         r_half_cirle=visuals.circles(per2pix(50),per2pix(circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(-1.5,1.5)
@@ -160,25 +161,26 @@ def player_circle():
 
     
 def check_acreacy (beat):
-
-        if  abs(beat-time.current)<0.15: # perfect 
+        global score , health
+        # intended to use time.time.current()
+        if  abs(beat-(pygame.time.get_ticks()/1000))<0.15: # perfect 
             print("perfect")
             score+=100
-            del level_beats["w"][beat]
+            del input_beats["up"][beat]#hmm
             # delets teh beat from other menus 
             # renders particles and circle 
-        elif abs(beat-time.current)>0.15 and abs(beat-time.current)<0.35:# great 
+        elif abs(beat-(pygame.time.get_ticks()/1000))>0.15 and abs(beat-(pygame.time.get_ticks()/1000))<0.35:# great 
             print("great")
-        elif abs(beat-time.current)>0.35 and abs(beat-time.current)<0.65:# good 
+        elif abs(beat-(pygame.time.get_ticks()/1000))>0.35 and abs(beat-(pygame.time.get_ticks()/1000))<0.65:# good 
             print("good")
-        elif abs(beat-time.current)>0.65 and abs(beat-time.current)<0.9:# ok
+        elif abs(beat-(pygame.time.get_ticks()/1000))>0.65 and abs(beat-(pygame.time.get_ticks()/1000))<0.9:# ok
             print("ok")
-        elif abs(beat-time.current)<0.9 and abs(beat-time.current)> 1.1 :# miss
+        elif abs(beat-(pygame.time.get_ticks()/1000))<0.9 and abs(beat-(pygame.time.get_ticks()/1000))> 1.1 :# miss
             # miss sound 
             print("input miss")
             health-=1
     
-        elif beat-time.current < -1.5:#miss :(
+        elif beat-(pygame.time.get_ticks()/1000) < -1.5:#miss :(
             print("automatic miss")
             health-=1 
 
@@ -318,16 +320,16 @@ while running :
             
             if "w" in input_beats or "up" in input_beats :
 
-                for beat in  level_beats["up"].keys():
-                    check_acreacy(beat)                    
+                for beat in  input_beats["up"].keys():
+                    check_acreacy(beat)                  
             if "s" in input_beats or "down" in input_beats :
-                for beat in  level_beats["down"].keys():
+                for beat in  input_beats["down"].keys():
                     check_acreacy(beat)              
             if "d" in input_beats or "left" in input_beats :
-                for beat in  level_beats["left"].keys():
+                for beat in  input_beats["left"].keys():
                     check_acreacy(beat)              
             if "a" in input_beats or "right" in input_beats :
-                for beat in  level_beats["right"].keys():
+                for beat in  input_beats["right"].keys():
                     check_acreacy(beat)              
 
             # makes a list of beats to render based on the time
