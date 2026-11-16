@@ -9,14 +9,16 @@ screen=pygame.display.set_mode((500,500),pygame.RESIZABLE)
 flags=[]
 running=True
 pause=False
-input_list=[]
 level="home"
-level_beats={}
 level_song=None
 level_bpm=None
 health=None
 bg_color=(200,200,200)
-
+beat_time_offset=2# time it takes of a beat reach the guide
+circle_display_distance=20# under to place the postion of the guide circles 
+level_beats={}
+input_beats={"up":{},"down":{},"right":{},"left":{}}
+render_beats={}
 
 def per2pix (part,whole="s_w") :
     m_whole=whole
@@ -38,6 +40,63 @@ def load_level ():
     level_bpm=imported_level["bpm"]
     del imported_level["bpm"]
     level_beats=imported_level
+
+    # make the beat list 
+
+    for beat in level_beats.keys():
+        # the bpm may be used to deren the amount of time for trh player to see the beats 
+        # renders 2 seconds early 
+        input_distance= circle_display_distance# may not be nesscary 
+        #speed= distance/time
+        beat_speed=input_distance/beat_time_offset
+        render_beats[beat-beat_time_offset]=level_beats[beat]
+        #input_beats: direction>time>type
+        if "1" in level_beats[beat] and "o" in level_beats[beat]:   
+            input_beats["up"][beat]= "o"
+        if "1" in level_beats[beat] and "O" in level_beats[beat]:
+            input_beats["up"][beat]= "O"
+        if "1" in level_beats[beat] and "c" in level_beats[beat]:
+            input_beats["up"][beat]= "c"
+        if "1" in level_beats[beat] and "C" in level_beats[beat]:
+            input_beats["up"][beat]= "C"
+        if "1" in level_beats[beat] and "g" in level_beats[beat]:
+            input_beats["up"][beat]= "g"
+        if "2" in level_beats[beat] and "o" in level_beats[beat]:
+            input_beats["up"][beat]= "o"
+        if "2" in level_beats[beat] and "O" in level_beats[beat]:
+            input_beats["up"][beat]= "O"
+        if "2" in level_beats[beat] and "c" in level_beats[beat]:
+            input_beats["up"][beat]= "c"
+        if "2" in level_beats[beat] and "C" in level_beats[beat]:
+            input_beats["up"][beat]= "C"
+        if "2" in level_beats[beat] and "g" in level_beats[beat]:
+            input_beats["up"][beat]= "g"
+        if "3" in level_beats[beat] and "o" in level_beats[beat]:
+            input_beats["up"][beat]= "o"
+        if "3" in level_beats[beat] and "O" in level_beats[beat]:
+            input_beats["up"][beat]= "O"
+        if "3" in level_beats[beat] and "c" in level_beats[beat]:
+            input_beats["up"][beat]= "c"
+        if "3" in level_beats[beat] and "C" in level_beats[beat]:
+            input_beats["up"][beat]= "C"
+        if "3" in level_beats[beat] and "g" in level_beats[beat]:
+            input_beats["up"][beat]= "g"
+        if "4" in level_beats[beat] and "o" in level_beats[beat]:
+            input_beats["up"][beat]= "o"
+        if "4" in level_beats[beat] and "O" in level_beats[beat]:
+            input_beats["up"][beat]= "O"
+        if "4" in level_beats[beat] and "c" in level_beats[beat]:
+            input_beats["up"][beat]= "c"
+        if "4" in level_beats[beat] and "C" in level_beats[beat]:
+            input_beats["up"][beat]= "C"
+        if "4" in level_beats[beat] and "g" in level_beats[beat]:
+            input_beats["up"][beat]= "g"                    
+
+        print(f" input; {input_beats} render {render_beats}")
+        # coutculates the amount it takes for a beat from the 
+        # top or sides to reach the circle guides 
+        # then generates the time for the player to make a input 
+        # and then another list that is set earlyer based off of the 
 
 def start_level(level_num):
     global bg_color,level,pause
@@ -63,29 +122,29 @@ def player_circle():
 
 
     # checks user imputs 
-    print(input_list)
-    if "w" in input_list or "up" in input_list :
-        r_half_cirle=visuals.circles(per2pix(50),per2pix(20,"s_h"),per2pix(7),(250,250,250))
+    print(input_beats)
+    if "w" in input_beats or "up" in input_beats :
+        r_half_cirle=visuals.circles(per2pix(50),per2pix(circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(-1.5,1.5)
-        l_half_circle=visuals.circles(per2pix(50),per2pix(80,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle=visuals.circles(per2pix(50),per2pix(100-circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(1.5,-1.5)
         # right up
-    elif "s" in input_list or "down" in input_list :
-        r_half_cirle=visuals.circles(per2pix(50),per2pix(80,"s_h"),per2pix(7),(250,250,250))
+    elif "s" in input_beats or "down" in input_beats :
+        r_half_cirle=visuals.circles(per2pix(50),per2pix(100-circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(-1.5,1.5)
-        l_half_circle=visuals.circles(per2pix(50),per2pix(20,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle=visuals.circles(per2pix(50),per2pix(circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(1.5,-1.5)
         #right down      
-    elif "d" in input_list or "left" in input_list:
-        r_half_cirle=visuals.circles(per2pix(80),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+    elif "d" in input_beats or "left" in input_beats:
+        r_half_cirle=visuals.circles(per2pix(100-circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(3,0)
-        l_half_circle=visuals.circles(per2pix(20),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle=visuals.circles(per2pix(circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(0,3)
         # up left            
-    elif "a" in input_list or "right" in input_list :
-        r_half_cirle=visuals.circles(per2pix(20),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+    elif "a" in input_beats or "right" in input_beats :
+        r_half_cirle=visuals.circles(per2pix(circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(3,0)
-        l_half_circle=visuals.circles(per2pix(80),per2pix(50,"s_h"),per2pix(7),(250,250,250))
+        l_half_circle=visuals.circles(per2pix(100-circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(0,3)
         # up right
 
@@ -140,55 +199,55 @@ while running :
                 # I'm not sure if a list of inputs would be best :( 
                 # but it will have to due for now  
                 #add to input 
-                input_list.append("escape")
+                input_beats.append("escape")
             else:
-                if "escape" in input_list:
-                    input_list.remove("escape")
+                if "escape" in input_beats:
+                    input_beats.remove("escape")
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:  
-                input_list.append("a")
+                input_beats.append("a")
             else:
-                if "a" in input_list:
-                    input_list.remove("a")
+                if "a" in input_beats:
+                    input_beats.remove("a")
             if event.key == pygame.K_LEFT:
-                input_list.append("left")
+                input_beats.append("left")
                 print("left")
             else:
-                if "left" in input_list:
-                    input_list.remove("left")
+                if "left" in input_beats:
+                    input_beats.remove("left")
             if event.key == pygame.K_d:
-                    input_list.append("d")
+                    input_beats.append("d")
             else:
-                if "d" in input_list:
-                    input_list.remove("d")
+                if "d" in input_beats:
+                    input_beats.remove("d")
             if event.key == pygame.K_RIGHT:
-                input_list.append("right")
+                input_beats.append("right")
                 print("right")
             else:
-                if "right" in input_list:
-                    input_list.remove("right")
+                if "right" in input_beats:
+                    input_beats.remove("right")
             if event.key == pygame.K_w:
-                input_list.append("w")
+                input_beats.append("w")
             else:
-                if "w" in input_list:
-                    input_list.remove("w")
+                if "w" in input_beats:
+                    input_beats.remove("w")
             if event.key == pygame.K_UP:
-                input_list.append("up")
+                input_beats.append("up")
                 print("up")
             else:
-                if "up" in input_list:
-                    input_list.remove("up")
+                if "up" in input_beats:
+                    input_beats.remove("up")
             if event.key == pygame.K_s:
-                input_list.append("s")
+                input_beats.append("s")
             else:
-                if "s" in input_list:
-                    input_list.remove("s")
+                if "s" in input_beats:
+                    input_beats.remove("s")
             if event.key == pygame.K_DOWN:
-                input_list.append("down")
+                input_beats.append("down")
                 print("down")
             else:
-                if "down" in input_list:
-                    input_list.remove("down")
+                if "down" in input_beats:
+                    input_beats.remove("down")
 
     if level=="home": # --------- menu mannager 
         screen.fill(bg_color)
@@ -251,22 +310,25 @@ while running :
             # loads runs function 
             player_circle()
 
-            # checks user imputs 
-            """
-            if "w" in input_list or "up" in input_list :
 
-                for beat in  level_beats["w"].keys():
+            render_beats={} 
+
+
+            # checks user imputs 
+            
+            if "w" in input_beats or "up" in input_beats :
+
+                for beat in  level_beats["up"].keys():
                     check_acreacy(beat)                    
-            if "s" in input_list or "down" in input_list :
+            if "s" in input_beats or "down" in input_beats :
                 for beat in  level_beats["down"].keys():
                     check_acreacy(beat)              
-            if "d" in input_list or "left" in input_list :
+            if "d" in input_beats or "left" in input_beats :
                 for beat in  level_beats["left"].keys():
                     check_acreacy(beat)              
-            if "a" in input_list or "right" in input_list :
+            if "a" in input_beats or "right" in input_beats :
                 for beat in  level_beats["right"].keys():
                     check_acreacy(beat)              
-"""
 
             # makes a list of beats to render based on the time
             # countculates the position of the notes based off age and speed of song
