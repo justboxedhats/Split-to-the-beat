@@ -7,6 +7,8 @@ A simple rhythm game where the player needs to split a circle to the beat
 - the game renders
 - is more organized than my last project
 - the player can control the circle splitting
+- homw screen
+- start screen 
 
 
 
@@ -24,4 +26,8 @@ Image of the reference circles
 
 - the game does not have beats yet
 -  the game crashes when it tries to hit a beat
--   inputs are stuck 
+-   inputs are stuck
+-   figuring out how to structure the game
+- figuring out how to have the game use dictonaries inorder to generate level beats
+-  time management 
+
