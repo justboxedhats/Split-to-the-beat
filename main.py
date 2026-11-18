@@ -12,7 +12,8 @@ pause=False
 level="home"
 level_song=None
 level_bpm=None
-health=None
+input_list=[]
+health=10
 score=0
 bg_color=(200,200,200)
 beat_time_offset=2# time it takes of a beat reach the guide
@@ -104,6 +105,7 @@ def start_level(level_num):
     bg_color=(20,20,20)
     level=str(level_num)
     pause=True
+    input_list=[]
 
 def player_circle():
 
@@ -124,25 +126,25 @@ def player_circle():
 
     # checks user imputs 
     #                    print(input_beats)
-    if "w" in input_beats or "up" in input_beats :
+    if "w" in input_list or "up" in input_list :
         r_half_cirle=visuals.circles(per2pix(50),per2pix(circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(-1.5,1.5)
         l_half_circle=visuals.circles(per2pix(50),per2pix(100-circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(1.5,-1.5)
         # right up
-    elif "s" in input_beats or "down" in input_beats :
+    elif "s" in input_list or "down" in input_list :
         r_half_cirle=visuals.circles(per2pix(50),per2pix(100-circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(-1.5,1.5)
         l_half_circle=visuals.circles(per2pix(50),per2pix(circle_display_distance,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(1.5,-1.5)
         #right down      
-    elif "d" in input_beats or "left" in input_beats:
+    elif "d" in input_list or "left" in input_list:
         r_half_cirle=visuals.circles(per2pix(100-circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(3,0)
         l_half_circle=visuals.circles(per2pix(circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         l_half_circle.half_circle(0,3)
         # up left            
-    elif "a" in input_beats or "right" in input_beats :
+    elif "a" in input_list or "right" in input_list :
         r_half_cirle=visuals.circles(per2pix(circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
         r_half_cirle.half_circle(3,0)
         l_half_circle=visuals.circles(per2pix(100-circle_display_distance),per2pix(50,"s_h"),per2pix(7),(250,250,250))
@@ -166,7 +168,7 @@ def check_acreacy (beat):
         if  abs(beat-(pygame.time.get_ticks()/1000))<0.15: # perfect 
             print("perfect")
             score+=100
-            del input_beats["up"][beat]#hmm
+            #del input_beats["up"][beat]#hmm
             # delets teh beat from other menus 
             # renders particles and circle 
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.15 and abs(beat-(pygame.time.get_ticks()/1000))<0.35:# great 
@@ -201,55 +203,56 @@ while running :
                 # I'm not sure if a list of inputs would be best :( 
                 # but it will have to due for now  
                 #add to input 
-                input_beats.append("escape")
+                input_list.append("escape")
             else:
-                if "escape" in input_beats:
-                    input_beats.remove("escape")
+                if "escape" in input_list:
+                    input_list.remove("escape")
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:  
-                input_beats.append("a")
+                input_list.append("a")
             else:
-                if "a" in input_beats:
-                    input_beats.remove("a")
+                if "a" in input_list:
+                    input_list.remove("a")
             if event.key == pygame.K_LEFT:
-                input_beats.append("left")
+                input_list.append("left")
                 print("left")
             else:
-                if "left" in input_beats:
-                    input_beats.remove("left")
+                if "left" in input_list:
+                    print(input_list)
+                    input_list.remove("left")
             if event.key == pygame.K_d:
-                    input_beats.append("d")
+                    input_list.append("d")
             else:
-                if "d" in input_beats:
-                    input_beats.remove("d")
+                if "d" in input_list:
+                    input_list.remove("d")
             if event.key == pygame.K_RIGHT:
-                input_beats.append("right")
+                input_list.append("right")
                 print("right")
             else:
-                if "right" in input_beats:
-                    input_beats.remove("right")
+                if "right" in input_list:
+                    input_list.remove("right")
             if event.key == pygame.K_w:
-                input_beats.append("w")
+                input_list.append("w")
             else:
-                if "w" in input_beats:
-                    input_beats.remove("w")
+                if "w" in input_list:
+                    input_list.remove("w")
             if event.key == pygame.K_UP:
-                input_beats.append("up")
+                input_list.append("up")
                 print("up")
             else:
-                if "up" in input_beats:
-                    input_beats.remove("up")
+                if "up" in input_list:
+                    input_list.remove("up")
             if event.key == pygame.K_s:
-                input_beats.append("s")
+                input_list.append("s")
             else:
-                if "s" in input_beats:
-                    input_beats.remove("s")
+                if "s" in input_list:
+                    input_list.remove("s")
             if event.key == pygame.K_DOWN:
-                input_beats.append("down")
+                input_list.append("down")
                 print("down")
             else:
-                if "down" in input_beats:
-                    input_beats.remove("down")
+                if "down" in input_list:
+                    input_list.remove("down")
 
     if level=="home": # --------- menu mannager 
         screen.fill(bg_color)
@@ -318,17 +321,17 @@ while running :
 
             # checks user imputs 
             
-            if "w" in input_beats or "up" in input_beats :
+            if "w" in input_list or "up" in input_list :
 
                 for beat in  input_beats["up"].keys():
                     check_acreacy(beat)                  
-            if "s" in input_beats or "down" in input_beats :
+            if "s" in input_list or "down" in input_list :
                 for beat in  input_beats["down"].keys():
                     check_acreacy(beat)              
-            if "d" in input_beats or "left" in input_beats :
+            if "d" in input_list or "left" in input_list :
                 for beat in  input_beats["left"].keys():
                     check_acreacy(beat)              
-            if "a" in input_beats or "right" in input_beats :
+            if "a" in input_list or "right" in input_list :
                 for beat in  input_beats["right"].keys():
                     check_acreacy(beat)              
 
