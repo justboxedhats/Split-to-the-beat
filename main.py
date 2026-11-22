@@ -2,6 +2,7 @@ import pygame
 import visuals 
 import sound 
 import time 
+import os
 from levels import tutorial_lev 
 pygame.init()
 screen=pygame.display.set_mode((500,500),pygame.RESIZABLE)
@@ -15,6 +16,7 @@ level_bpm=None
 input_list=[]
 health=10
 score=0
+tried_levels=[]
 bg_color=(200,200,200)
 beat_time_offset=2# time it takes of a beat reach the guide
 circle_display_distance=20# under to place the postion of the guide circles 
@@ -25,16 +27,19 @@ delete_list=[]# in the case of loops
 
 # import list
 
-import_dic={
-    "i_test":["images/test.png"],
-    "s_test":["sounds/test.mp3"]
+import_dic={# need to add test files 
+    "images/tital.png":"",
+    "sounds/beat_break.mp3":""
 }
 
 # calling images and sounds 
-try 
+try:
     for i in import_dic.keys():
-        if  
-
+        if os.path.isfile(import_dic[i]) :
+            import_dic[i]=pygame.image.load(import_dic[i])
+            print(f"added {i}  as {import_dic[i]}")
+        else:
+            print(f"path: {i} is not valid")
 except:
     print("there was an error calling files :(")
 
@@ -60,6 +65,8 @@ def load_level ():
     del imported_level["bpm"]
     level_beats=imported_level
 
+    #define render beat list
+
     # make the beat list 
 
     for beat in level_beats.keys():
@@ -68,20 +75,24 @@ def load_level ():
         input_distance= circle_display_distance# may not be nesscary 
         #speed= distance/time
         beat_speed=input_distance/beat_time_offset
-        render_beats[beat-beat_time_offset]=level_beats[beat]
+        #render_beats[beat-beat_time_offset]=level_beats[beat]
         #input_beats: direction>time>type
         if "1" in level_beats[beat] and "o" in level_beats[beat]:   
             input_beats["up"][beat]= "o"
+            print((per2pix(50),-1*(beat+ beat_time_offset) ))
+            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "1" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "1" in level_beats[beat] and "c" in level_beats[beat]:
             input_beats["up"][beat]= "c"
+            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="hw"
         if "1" in level_beats[beat] and "C" in level_beats[beat]:
             input_beats["up"][beat]= "C"
         if "1" in level_beats[beat] and "g" in level_beats[beat]:
             input_beats["up"][beat]= "g"
         if "2" in level_beats[beat] and "o" in level_beats[beat]:
             input_beats["up"][beat]= "o"
+            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "2" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "2" in level_beats[beat] and "c" in level_beats[beat]:
@@ -92,6 +103,7 @@ def load_level ():
             input_beats["up"][beat]= "g"
         if "3" in level_beats[beat] and "o" in level_beats[beat]:
             input_beats["up"][beat]= "o"
+            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "3" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "3" in level_beats[beat] and "c" in level_beats[beat]:
@@ -102,6 +114,7 @@ def load_level ():
             input_beats["up"][beat]= "g"
         if "4" in level_beats[beat] and "o" in level_beats[beat]:
             input_beats["up"][beat]= "o"
+            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "4" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "4" in level_beats[beat] and "c" in level_beats[beat]:
@@ -121,6 +134,8 @@ def start_level(level_num):
     global bg_color,level,pause
     bg_color=(20,20,20)
     level=str(level_num)
+    health=10
+    score=0
     pause=True
     input_list=[]
     render_beats={ }
@@ -186,19 +201,23 @@ def check_acreacy (beat):
         if  abs(beat-(pygame.time.get_ticks()/1000))<0.15: # perfect 
             print("perfect")
             score+=100
-            delete_list["input"]=["up"][beat]
+            delete_list.append(beat)
 
             #del input_beats["up"][beat]
             # delets teh beat from other menus 
             # renders particles and circle 
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.15 and abs(beat-(pygame.time.get_ticks()/1000))<0.35:# great 
+            score+=80
             print("great")
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.35 and abs(beat-(pygame.time.get_ticks()/1000))<0.65:# good 
+            score+=50
             print("good")
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.65 and abs(beat-(pygame.time.get_ticks()/1000))<0.9:# ok
+            score+=20
             print("ok")
         elif abs(beat-(pygame.time.get_ticks()/1000))<0.9 and abs(beat-(pygame.time.get_ticks()/1000))> 1.1 :# miss
             # miss sound 
+            score-=10 
             print("input miss")
             health-=1
     
@@ -304,6 +323,15 @@ while running :
             # title
         title_text=visuals.text(per2pix(35),per2pix(10,"s_h"),"Split The Beat!",(100,100,250),None, 30)
         title_text.render()
+    elif level == "level_select":
+        level_select_text= visuals.text(per2pix(10),per2pix(4,"s_h"),"level select",(200,200,200))
+        level_select_text.render()
+
+        back_button=visuals.pannel_press(per2pix(2),per2pix(7,"s_h"),per2pix(10),per2pix(3,"s_h"),(90,100,200))
+        back_button.render()
+        if back_button.check_click()or "escape" in input_list:
+            level="home" 
+            print("pressed the escape button")
 
     elif level == "tutorial":
         screen.fill(bg_color)
@@ -350,43 +378,62 @@ while running :
                     check_acreacy(beat)              
             if "a" in input_list or "right" in input_list :
                 for beat in  input_beats["right"].keys():
-                    check_acreacy(beat)              
+                    check_acreacy(beat)
 
             # makes a list of beats to render based on the time
             # countculates the position of the notes based off age and speed of song
             # generates another notes that holds the beats's data (pos,colro, ect) 
             # sends the new list to the visuals file to generate the visuals(inside of the contidionals) 
-             
+
+
+            score_text=visuals.text(per2pix(5),per2pix(83,"s_h"),f"score: {score}",(200,200,200),None,24)
+            score_text.render()
+            level_text=visuals.text(per2pix(80),per2pix(83,"s_h"),f"{level}",(200,200,200))
+            level_text.render() 
 
             if "debug" in flags :
                 # load visuals outlines 
                 pass
 
             else:
+
+                # structure: postion,type 
+                # where is direction going to be defined? 
                 
-                # the inforamtion this needs is the position of the beats thier color(type)
-                # structure: type,postion and direction
-                
-                # rember that the beat postions need to be chaned after they are rendered
+                #renders the beats
+                print(f"renderlist: {render_beats} ")
+                for i in render_beats.keys() :
+                    visuals.beats(i[0],i[1],render_beats[i]) 
+
                 # and then checked if they are too far in the screen whre it will be removed  
+                """for i in render_beats.keys(): 
+                    if i[0]> per2pix(45) and i[0]< per2pix(55):
+                        delete_list.append(i)
+                        print(f"added {i} to delete list")
+                    if  i[1]> per2pix(45) and i[1]< per2pix(55):
+                        delete_list.append(i)
+                        print(f"added {i} to delete list")"""
 
-                for i in render_beats[] :
+                # uses direction to change the postion of the visual beats  
+                for i in render_beats.keys():
+                    if i[0] == per2pix(50) and  i[1]> per2pix(40):
+                        #um, so how do I change the key of the dictionary? 
+                        render_beats[(per2pix(50) ,i[1]+5 )]=render_beats.pop(i)
+                    elif i[0] == per2pix(50) and  i[1]> per2pix(40):
+                        pass
 
 
-                #renders everything 
-                if self.direction == 1 :
-                    self.y-= speed
-                if self.direction == 2 :
-                    self.x-= speed
-                if self.direction == 3 :
-                    self.y+= speed
-                if self.direction == 4 :
-                    self.x+= speed
 
-            # uses the delete list
-            for i in delete_list:
-                del render_beats[i]
-                del level_beats[i]
+
+
+            # uses the delete list 
+            for i in delete_list: 
+                print(f"del thing:  {i}")
+                if isinstance(i,tuple):
+                    del render_beats[i]
+                else:
+
+                    del input_beats[i]
 
     elif level == "level1":
         pass

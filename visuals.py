@@ -23,25 +23,25 @@ class circles :
 
 
 class beats:
-    def __init__ (self,x,y,direction,color):
+    def __init__ (self,x,y,color):
         self.self=self
         self.x=x=x
         self.y=y=y
         self.pos=(x,y)
-        self.direction=direction
         self.type=color
         if color=="g":
             self.color=(100,170,120)
-        elif color== "ww":
+        elif color[1] =="w":
             self.color=(250,250,250)
-        elif color=="hw";
-            self.color=(250,250,250)
-        elif color=="wy":
+        elif color[1]=="y":
             self.color=(200,200,120)
-        elif color=="hy":
-            self.color=(200,200,120)
-            
-        beat_circle=circle(self.x,self.y,10, self.color)
+
+        beat_circle=circles(self.x,self.y,10, self.color)
+
+        if color[0] == "w" or color[0] == "g":
+            beat_circle.draw_base()
+        elif color[0] == "h":
+            beat_circle.half_circle()
 
 
         
