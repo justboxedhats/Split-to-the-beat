@@ -354,7 +354,6 @@ while running :
                 if start_button.check_click():
                     pause=False
                     # sets other varables for the level
-                    # 
                     flags.append("start")
                 # then turn off pause 
 
@@ -399,9 +398,8 @@ while running :
 
                 # structure: postion,type 
                 # where is direction going to be defined? 
-                
+                 
                 #renders the beats
-                print(f"renderlist: {render_beats} ")
                 for i in render_beats.keys() :
                     visuals.beats(i[0],i[1],render_beats[i]) 
 
@@ -416,11 +414,12 @@ while running :
 
                 # uses direction to change the postion of the visual beats  
                 for i in render_beats.keys():
-                    if i[0] == per2pix(50) and  i[1]> per2pix(40):
+                    if i[1] == per2pix(50) and  i[1]< per2pix(40):
                         #um, so how do I change the key of the dictionary? 
                         render_beats[(per2pix(50) ,i[1]+5 )]=render_beats.pop(i)
-                    elif i[0] == per2pix(50) and  i[1]> per2pix(40):
-                        pass
+                        print("here")
+                    elif i[1] == per2pix(50) and  i[1]> per2pix(55):
+                        print("node at the bottom of the screen")
 
 
 
@@ -428,11 +427,15 @@ while running :
 
             # uses the delete list 
             for i in delete_list: 
-                print(f"del thing:  {i}")
+                print(f"i:  {i}  ,  render:  {render_beats}  , input:  {input_beats} ")
                 if isinstance(i,tuple):
                     del render_beats[i]
                 else:
-
+                    # the issue is that the input beats require a direction
+                    # that is currently unavalable with the current system that is being 
+                    # used so I may just rebuild the system
+                    # Its becoming a nusance with how the data needs to aquarly flow between dictionaries and so on
+                     
                     del input_beats[i]
 
     elif level == "level1":
