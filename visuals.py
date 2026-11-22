@@ -21,6 +21,31 @@ class circles :
         global screen
         pygame.draw.arc(screen,self.color,(self.x,self.y,self.size,self.size),st_angle,ed_angle)
 
+
+class beats:
+    def __init__ (self,x,y,direction,color):
+        self.self=self
+        self.x=x=x
+        self.y=y=y
+        self.pos=(x,y)
+        self.direction=direction
+        self.type=color
+        if color=="g":
+            self.color=(100,170,120)
+        elif color== "ww":
+            self.color=(250,250,250)
+        elif color=="hw";
+            self.color=(250,250,250)
+        elif color=="wy":
+            self.color=(200,200,120)
+        elif color=="hy":
+            self.color=(200,200,120)
+            
+        beat_circle=circle(self.x,self.y,10, self.color)
+
+
+        
+
 class pannel :
     def __init__ (self,x,y,width,height,color ):
         self.pos=(x,y)

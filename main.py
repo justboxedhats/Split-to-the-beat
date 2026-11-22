@@ -21,6 +21,7 @@ circle_display_distance=20# under to place the postion of the guide circles
 level_beats={}
 input_beats={"up":{},"down":{},"right":{},"left":{}}
 render_beats={}
+delete_list=[]# in the case of loops 
 
 # import list
 
@@ -122,6 +123,7 @@ def start_level(level_num):
     level=str(level_num)
     pause=True
     input_list=[]
+    render_beats={ }
 
 def player_circle():
 
@@ -179,12 +181,14 @@ def player_circle():
 
     
 def check_acreacy (beat):
-        global score , health
+        global score , health,delete_list
         # intended to use time.time.current()
         if  abs(beat-(pygame.time.get_ticks()/1000))<0.15: # perfect 
             print("perfect")
             score+=100
-            #del input_beats["up"][beat]#hmm
+            delete_list["input"]=["up"][beat]
+
+            #del input_beats["up"][beat]
             # delets teh beat from other menus 
             # renders particles and circle 
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.15 and abs(beat-(pygame.time.get_ticks()/1000))<0.35:# great 
@@ -330,10 +334,7 @@ while running :
         else: # the game is running 
             # loads runs function 
             player_circle()
-
-
-            render_beats={} 
-
+    
 
             # checks user imputs 
             
@@ -355,15 +356,37 @@ while running :
             # countculates the position of the notes based off age and speed of song
             # generates another notes that holds the beats's data (pos,colro, ect) 
             # sends the new list to the visuals file to generate the visuals(inside of the contidionals) 
-
+             
 
             if "debug" in flags :
                 # load visuals outlines 
                 pass
 
             else:
+                
+                # the inforamtion this needs is the position of the beats thier color(type)
+                # structure: type,postion and direction
+                
+                # rember that the beat postions need to be chaned after they are rendered
+                # and then checked if they are too far in the screen whre it will be removed  
+
+                for i in render_beats[] :
+
+
                 #renders everything 
-                pass
+                if self.direction == 1 :
+                    self.y-= speed
+                if self.direction == 2 :
+                    self.x-= speed
+                if self.direction == 3 :
+                    self.y+= speed
+                if self.direction == 4 :
+                    self.x+= speed
+
+            # uses the delete list
+            for i in delete_list:
+                del render_beats[i]
+                del level_beats[i]
 
     elif level == "level1":
         pass
