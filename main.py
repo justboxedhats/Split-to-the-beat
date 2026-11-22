@@ -22,6 +22,22 @@ level_beats={}
 input_beats={"up":{},"down":{},"right":{},"left":{}}
 render_beats={}
 
+# import list
+
+import_dic={
+    "i_test":["images/test.png"],
+    "s_test":["sounds/test.mp3"]
+}
+
+# calling images and sounds 
+try 
+    for i in import_dic.keys():
+        if  
+
+except:
+    print("there was an error calling files :(")
+
+
 def per2pix (part,whole="s_w") :
     m_whole=whole
     if whole == "s_h":
