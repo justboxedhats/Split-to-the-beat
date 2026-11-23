@@ -75,24 +75,20 @@ def load_level ():
         input_distance= circle_display_distance# may not be nesscary 
         #speed= distance/time
         beat_speed=input_distance/beat_time_offset
-        #render_beats[beat-beat_time_offset]=level_beats[beat]
         #input_beats: direction>time>type
         if "1" in level_beats[beat] and "o" in level_beats[beat]:   
             input_beats["up"][beat]= "o"
             print((per2pix(50),-1*(beat+ beat_time_offset) ))
-            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "1" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "1" in level_beats[beat] and "c" in level_beats[beat]:
             input_beats["up"][beat]= "c"
-            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="hw"
         if "1" in level_beats[beat] and "C" in level_beats[beat]:
             input_beats["up"][beat]= "C"
         if "1" in level_beats[beat] and "g" in level_beats[beat]:
             input_beats["up"][beat]= "g"
         if "2" in level_beats[beat] and "o" in level_beats[beat]:
             input_beats["up"][beat]= "o"
-            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "2" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "2" in level_beats[beat] and "c" in level_beats[beat]:
@@ -103,7 +99,6 @@ def load_level ():
             input_beats["up"][beat]= "g"
         if "3" in level_beats[beat] and "o" in level_beats[beat]:
             input_beats["up"][beat]= "o"
-            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "3" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "3" in level_beats[beat] and "c" in level_beats[beat]:
@@ -114,7 +109,6 @@ def load_level ():
             input_beats["up"][beat]= "g"
         if "4" in level_beats[beat] and "o" in level_beats[beat]:
             input_beats["up"][beat]= "o"
-            render_beats[(per2pix(50),-1*(beat+ beat_time_offset) )]="ww"
         if "4" in level_beats[beat] and "O" in level_beats[beat]:
             input_beats["up"][beat]= "O"
         if "4" in level_beats[beat] and "c" in level_beats[beat]:
@@ -144,10 +138,11 @@ def player_circle():
 
     # renders guide
 
-    top_guide_circle=visuals.circles(per2pix(50),per2pix(20),per2pix(3),(100,100,100))
-    bottom_guide_circle=visuals.circles(per2pix(50),per2pix(80),per2pix(3),(100,100,100))
-    right_guide_circle=visuals.circles(per2pix(20),per2pix(50),per2pix(3),(100,100,100))
-    left_guide_circle=visuals.circles(per2pix(80),per2pix(50),per2pix(3),(100,100,100))
+    # by the way, the guides are 
+    top_guide_circle=visuals.circles(per2pix(50),per2pix(circle_display_distance),per2pix(3),(100,100,100))
+    bottom_guide_circle=visuals.circles(per2pix(50),per2pix((100-circle_display_distance)),per2pix(3),(100,100,100))
+    right_guide_circle=visuals.circles(per2pix(circle_display_distance),per2pix(50),per2pix(3),(100,100,100))
+    left_guide_circle=visuals.circles(per2pix((100-circle_display_distance)),per2pix(50),per2pix(3),(100,100,100))
 
         #renders guides
 
@@ -197,33 +192,37 @@ def player_circle():
     
 def check_acreacy (beat):
         global score , health,delete_list
-        # intended to use time.time.current()
-        if  abs(beat-(pygame.time.get_ticks()/1000))<0.15: # perfect 
+        # intended to use time.time.current() 
+        if  abs(beat-(pygame.time.get_ticks()/1000) )<0.15: # perfect 
             print("perfect")
             score+=100
-            delete_list.append(beat)
-
-            #del input_beats["up"][beat]
+            
+            return True
             # delets teh beat from other menus 
             # renders particles and circle 
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.15 and abs(beat-(pygame.time.get_ticks()/1000))<0.35:# great 
             score+=80
             print("great")
+            return True
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.35 and abs(beat-(pygame.time.get_ticks()/1000))<0.65:# good 
             score+=50
             print("good")
+            return True
         elif abs(beat-(pygame.time.get_ticks()/1000))>0.65 and abs(beat-(pygame.time.get_ticks()/1000))<0.9:# ok
             score+=20
             print("ok")
+            return True
         elif abs(beat-(pygame.time.get_ticks()/1000))<0.9 and abs(beat-(pygame.time.get_ticks()/1000))> 1.1 :# miss
             # miss sound 
             score-=10 
             print("input miss")
             health-=1
+            return True
     
         elif beat-(pygame.time.get_ticks()/1000) < -1.5:#miss :(
             print("automatic miss")
             health-=1 
+            return True
 
 
         # loads sounds
@@ -321,8 +320,13 @@ while running :
 
         #images 
             # title
-        title_text=visuals.text(per2pix(35),per2pix(10,"s_h"),"Split The Beat!",(100,100,250),None, 30)
-        title_text.render()
+        if not import_dic["images/tital.png"] == "" :
+            # render the image of the tital 
+            screen.blit(import_dic["images/tital.png"],(per2pix(30),per2pix(5,"s_h")))
+        else:
+            title_text=visuals.text(per2pix(35),per2pix(10,"s_h"),"Split The Beat!",(100,100,250),None, 30)
+            title_text.render() 
+            
     elif level == "level_select":
         level_select_text= visuals.text(per2pix(10),per2pix(4,"s_h"),"level select",(200,200,200))
         level_select_text.render()
@@ -362,28 +366,43 @@ while running :
             # loads runs function 
             player_circle()
     
-
             # checks user imputs 
             
             if "w" in input_list or "up" in input_list :
 
                 for beat in  input_beats["up"].keys():
-                    check_acreacy(beat)                  
+                    if input_beats["up"][beat]=="null":
+                        if check_acreacy(beat) :
+                            input_beats["up"][beat]="null"
+                            print(f"beat :  {beat}  , beats:   {input_beats}  ")
+
             if "s" in input_list or "down" in input_list :
                 for beat in  input_beats["down"].keys():
-                    check_acreacy(beat)              
+                    if check_acreacy(beat) :
+                        input_beats["up"][beat]="null"           
             if "d" in input_list or "left" in input_list :
                 for beat in  input_beats["left"].keys():
                     check_acreacy(beat)              
             if "a" in input_list or "right" in input_list :
                 for beat in  input_beats["right"].keys():
-                    check_acreacy(beat)
+                    check_acreacy(beat) 
 
             # makes a list of beats to render based on the time
             # countculates the position of the notes based off age and speed of song
             # generates another notes that holds the beats's data (pos,colro, ect) 
             # sends the new list to the visuals file to generate the visuals(inside of the contidionals) 
 
+            # plan B
+            # define the list before the level starts
+            # looks for beats under a certain time frame  
+            # gives the time and color to the render fuction 
+            # the tricky part is figuring out how to modify the postion  
+            # input_list> render_list-time_offset> render beat + timeoffset (should be at a good rate)> delet 
+            # the issue seems to be with the delet being problematic 
+            #rember that the time for input beat is when the player need to imput thier responce    
+            # so the visuals need to be offset to be earlyer
+            # and then moved closer with the passing of time at a rate that would be apropreate with the distance  
+            # wait... the current system does not acount for that offset at all... 
 
             score_text=visuals.text(per2pix(5),per2pix(83,"s_h"),f"score: {score}",(200,200,200),None,24)
             score_text.render()
@@ -421,22 +440,13 @@ while running :
                     elif i[1] == per2pix(50) and  i[1]> per2pix(55):
                         print("node at the bottom of the screen")
 
-
-
-
-
             # uses the delete list 
             for i in delete_list: 
                 print(f"i:  {i}  ,  render:  {render_beats}  , input:  {input_beats} ")
-                if isinstance(i,tuple):
-                    del render_beats[i]
-                else:
-                    # the issue is that the input beats require a direction
-                    # that is currently unavalable with the current system that is being 
-                    # used so I may just rebuild the system
-                    # Its becoming a nusance with how the data needs to aquarly flow between dictionaries and so on
-                     
-                    del input_beats[i]
+                if isinstance(i,tuple): 
+                    del render_beats[i] 
+
+
 
     elif level == "level1":
         pass
