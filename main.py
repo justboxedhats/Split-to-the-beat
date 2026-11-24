@@ -369,23 +369,26 @@ while running :
             # checks user imputs 
             
             if "w" in input_list or "up" in input_list :
-
                 for beat in  input_beats["up"].keys():
-                    if input_beats["up"][beat]=="null":
+                    if not input_beats["up"][beat]=="null":
                         if check_acreacy(beat) :
                             input_beats["up"][beat]="null"
                             print(f"beat :  {beat}  , beats:   {input_beats}  ")
-
             if "s" in input_list or "down" in input_list :
                 for beat in  input_beats["down"].keys():
-                    if check_acreacy(beat) :
-                        input_beats["up"][beat]="null"           
+                    if not input_beats["down"][beat]=="null":
+                        if check_acreacy(beat) :
+                            input_beats["down"][beat]="null"           
             if "d" in input_list or "left" in input_list :
                 for beat in  input_beats["left"].keys():
-                    check_acreacy(beat)              
+                    if not input_beats["left"][beat]=="null":
+                        if check_acreacy(beat) :
+                            input_beats["left"][beat]="null"    
             if "a" in input_list or "right" in input_list :
                 for beat in  input_beats["right"].keys():
-                    check_acreacy(beat) 
+                    if not input_beats["right"][beat]=="null":
+                        if check_acreacy(beat) :
+                            input_beats["right"][beat]="null"    
 
             # makes a list of beats to render based on the time
             # countculates the position of the notes based off age and speed of song
