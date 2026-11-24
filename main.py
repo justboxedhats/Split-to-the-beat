@@ -363,6 +363,7 @@ while running :
 
 
         else: # the game is running 
+            
             # loads runs function 
             player_circle()
     
@@ -390,22 +391,6 @@ while running :
                         if check_acreacy(beat) :
                             input_beats["right"][beat]="null"    
 
-            # makes a list of beats to render based on the time
-            # countculates the position of the notes based off age and speed of song
-            # generates another notes that holds the beats's data (pos,colro, ect) 
-            # sends the new list to the visuals file to generate the visuals(inside of the contidionals) 
-
-            # plan B
-            # define the list before the level starts
-            # looks for beats under a certain time frame  
-            # gives the time and color to the render fuction 
-            # the tricky part is figuring out how to modify the postion  
-            # input_list> render_list-time_offset> render beat + timeoffset (should be at a good rate)> delet 
-            # the issue seems to be with the delet being problematic 
-            #rember that the time for input beat is when the player need to imput thier responce    
-            # so the visuals need to be offset to be earlyer
-            # and then moved closer with the passing of time at a rate that would be apropreate with the distance  
-            # wait... the current system does not acount for that offset at all... 
 
             score_text=visuals.text(per2pix(5),per2pix(83,"s_h"),f"score: {score}",(200,200,200),None,24)
             score_text.render()
@@ -425,23 +410,6 @@ while running :
                 for i in render_beats.keys() :
                     visuals.beats(i[0],i[1],render_beats[i]) 
 
-                # and then checked if they are too far in the screen whre it will be removed  
-                """for i in render_beats.keys(): 
-                    if i[0]> per2pix(45) and i[0]< per2pix(55):
-                        delete_list.append(i)
-                        print(f"added {i} to delete list")
-                    if  i[1]> per2pix(45) and i[1]< per2pix(55):
-                        delete_list.append(i)
-                        print(f"added {i} to delete list")"""
-
-                # uses direction to change the postion of the visual beats  
-                for i in render_beats.keys():
-                    if i[1] == per2pix(50) and  i[1]< per2pix(40):
-                        #um, so how do I change the key of the dictionary? 
-                        render_beats[(per2pix(50) ,i[1]+5 )]=render_beats.pop(i)
-                        print("here")
-                    elif i[1] == per2pix(50) and  i[1]> per2pix(55):
-                        print("node at the bottom of the screen")
 
             # uses the delete list 
             for i in delete_list: 
